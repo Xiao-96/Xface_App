@@ -1,0 +1,23 @@
+guest@raspberrypi:/usr/local $ ls -l
+合計 36
+drwxr-xr-x 15 guest guest 4096  6月 14 14:10 XFACE
+
+[Unit]
+Description=XFace
+After=network.target
+
+[Service]
+ExecStart= /home/guest/.pyenv/versions/3.8.0/bin/python /usr/local/XFACE/main.py
+TimeoutStartSec=3min
+TimeoutStopSec=3min
+WorkingDirectory=/usr/local/XFACE
+StandardOutput=journal
+StandardError=journal
+User=guest
+Group=guest
+Environment="DISPLAY=:0"
+Restart=on-failure
+StartLimitBurst=0
+
+[Install]
+WantedBy=multi-user.target
