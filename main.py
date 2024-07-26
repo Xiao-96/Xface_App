@@ -324,13 +324,19 @@ class MainApp:
         except:
             print("Eject error")
         if res.returncode == 0:
-            umount_cmd = 'echo guest | sudo eject {}'.format(path)
+            #umount_cmd = 'echo guest | sudo eject {}'.format(path)
+            umount_cmd = 'gio mount -u {}'.format(path)
             try:
                 umount_res= subprocess.run(umount_cmd, shell=True, capture_output=True, text=True)
             except:
                 print("Eject error")
             if umount_res.returncode == 0:
                 print("eject success")
+                power_off_cmd = 'udisksctl power-off -b /dev/sda1'
+                try:
+                    subprocess.run(power_off_cmd, shell=True, capture_output=True, text=True)
+                except Exception as e:
+                    print("Power-off error:", e)
             else:
                 print("eject fail")
         else:
